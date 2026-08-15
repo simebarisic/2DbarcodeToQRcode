@@ -1,0 +1,10 @@
+# OS / editor
+.DS_Store
+.idea/
+*.iml
+.vscode/
+
+# Env files with secrets - never commit these
+.env
+.env.*
+!.env.example
