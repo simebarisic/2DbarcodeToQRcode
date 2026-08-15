@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-# 2DbarcodeToQRcode
-=======
 # Barkod → QR kod
 
 Aplikacija koja učitava sliku 1D/2D barkoda (Code128, EAN-13, DataMatrix,
@@ -200,6 +197,16 @@ Par preporuka za taj korak, redom kako bih ih rješavao:
 
 ## Napomene / mogući nadogradnji
 
+- `frontend/package-lock.json` je commitan (generiran ovdje) - potreban
+  je da `npm ci` i GitHub Actions cache rade determinirano. Kad
+  dodaješ/mijenjaš pakete, koristi `npm install` (ne uređuj lockfile
+  ručno) pa commitaj promjenu.
+- `npm audit` trenutno javlja jednu umjerenu ranjivost u `esbuild`
+  (preko Vite dev servera) - tiče se samo `npm run dev` na lokalnom
+  računalu, ne i produkcijskog builda koji se poslužuje kroz nginx.
+  Fix zahtijeva major upgrade na Vite 8; odgodio bih dok ne bude
+  vremena testirati da ništa ne pukne.
+
 - CORS je konfiguriran samo za `http://localhost:5173` (vidi
   `CorsConfig.java`) - promijeni ako frontend hostaš negdje drugdje.
 - Max veličina uploada je 10MB (`application.properties`).
@@ -208,4 +215,3 @@ Par preporuka za taj korak, redom kako bih ih rješavao:
   `ConvertController` da vraća `ResponseEntity<byte[]>`.
 - ZXing prepoznaje format automatski (`MultiFormatReader`) - nije potrebno
   unaprijed znati koji je barkod na slici.
->>>>>>> b22c9e8 (Initial commit)
