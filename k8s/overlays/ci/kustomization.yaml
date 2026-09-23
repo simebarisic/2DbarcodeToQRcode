@@ -1,0 +1,19 @@
+# Overlay za GitHub Actions (.github/workflows/k8s.yml): efemerni k3d klaster
+# bez Ingressa/TLS-a, smoke test ide preko kubectl port-forward.
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: barcode-to-qr
+
+resources:
+  - namespace.yaml
+  - ../../base
+
+# Image builda CI job i uvozi ga u k3d.
+images:
+  - name: barcode-to-qr-backend
+    newName: barcode-to-qr-backend
+    newTag: ci
+  - name: barcode-to-qr-frontend
+    newName: barcode-to-qr-frontend
+    newTag: ci

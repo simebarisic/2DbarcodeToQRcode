@@ -215,3 +215,14 @@ Par preporuka za taj korak, redom kako bih ih rješavao:
   `ConvertController` da vraća `ResponseEntity<byte[]>`.
 - ZXing prepoznaje format automatski (`MultiFormatReader`) - nije potrebno
   unaprijed znati koji je barkod na slici.
+
+## Kubernetes (lokalno, za učenje)
+
+Kustomize manifesti su u `k8s/`, lokalni k3d klaster se diže jednom naredbom:
+
+```bash
+brew install k3d kubectl      # jednom
+./scripts/k8s-local.sh up
+```
+
+Detalji (struktura, adrese, specifičnosti ovog projekta, CI): [`k8s/README.md`](k8s/README.md).

@@ -1,0 +1,27 @@
+# Lokalni klaster za učenje: k3d (k3s u Dockeru) + Traefik + cert-manager.
+# Pokretanje: ./scripts/k8s-local.sh up   (vidi README, sekcija Kubernetes)
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: barcode-to-qr
+
+resources:
+  - namespace.yaml
+  - ../../base
+  - tls-issuer.yaml
+  - ingress.yaml
+
+# Image se builda lokalno i uvozi u k3d (k3d image import) - nema pulla iz registryja.
+images:
+  - name: barcode-to-qr-backend
+    newName: barcode-to-qr-backend
+    newTag: local
+  - name: barcode-to-qr-frontend
+    newName: barcode-to-qr-frontend
+    newTag: local
+
+configMapGenerator:
+  - name: barcode-to-qr-config
+    behavior: merge
+    literals:
+      - CORS_ALLOWED_ORIGINS=https://qr.localtest.me

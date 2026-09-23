@@ -1,0 +1,21 @@
+# Zajednička osnova. Overlaye (k8s/overlays/*) postavljaju namespace, image
+# tagove, Ingress/TLS i secrete. Base se NE deploya sam.
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+labels:
+  - pairs:
+      app.kubernetes.io/part-of: barcode-to-qr
+    includeSelectors: false
+
+resources:
+  - backend.yaml
+  - frontend.yaml
+
+# Ne-tajne postavke. Kustomize dodaje hash u ime ConfigMapa, pa svaka promjena
+# automatski pokreće rolling restart Deploymenta koji ga koriste.
+configMapGenerator:
+  - name: barcode-to-qr-config
+    literals:
+      - LOG_LEVEL=INFO
+      - CORS_ALLOWED_ORIGINS=http://localhost:8081
