@@ -70,11 +70,16 @@ build_and_import() {
 deploy() {
   kubectl config use-context "k3d-$CLUSTER" >/dev/null
   ensure_secret_env
+  # Deploymenti koji su postojali PRIJE applyja - samo njih treba restartati
+  # (tag 'local' se ne mijenja, pa Kubernetes sam ne bi primijetio novi image).
+  # Pri prvom deployu nema čega restartati - inače bi se svaki pod dizao dvaput.
+  local existing_deploys
+  existing_deploys="$(kubectl -n "$NS" get deploy -o name 2>/dev/null || true)"
   echo "==> kubectl apply -k k8s/overlays/local"
   kubectl apply -k "$OVERLAY"
-  # Tag 'local' se ne mijenja, pa Deployment sam ne bi primijetio novi image.
-  kubectl -n "$NS" rollout restart deploy/backend
-  kubectl -n "$NS" rollout restart deploy/frontend
+  if [ -n "$existing_deploys" ]; then
+    kubectl -n "$NS" rollout restart $existing_deploys
+  fi
   kubectl -n "$NS" rollout status deploy/backend --timeout=300s
   kubectl -n "$NS" rollout status deploy/frontend --timeout=300s
   echo

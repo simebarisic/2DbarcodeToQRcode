@@ -1,11 +1,9 @@
-# Ingress preko Traefika (ugrađen u k3s/k3d). cert-manager vidi anotaciju,
-# sam kreira Certificate i sprema ga u secret "barcode-to-qr-tls".
+# Ingress preko Traefika (ugrađen u k3s/k3d). TLS certifikat u secretu
+# "barcode-to-qr-tls" izdaje cert-manager prema certificate.yaml.
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: barcode-to-qr
-  annotations:
-    cert-manager.io/issuer: "local-ca"
 spec:
   ingressClassName: traefik
   tls:
