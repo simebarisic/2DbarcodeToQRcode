@@ -25,4 +25,7 @@ EXPOSE 8080
 HEALTHCHECK --interval=30s --timeout=5s --start-period=30s --retries=3 \
   CMD wget -qO- http://localhost:${SERVER_PORT:-8080}/actuator/health | grep -q '"status":"UP"' || exit 1
 
+# Heap do 75% limita kontejnera (mem_limit u composeu); bez limita bi JVM uzeo
+# četvrtinu RAM-a cijelog servera, a više takvih backenda zajedno ga može srušiti.
+ENV JAVA_TOOL_OPTIONS="-XX:MaxRAMPercentage=75"
 ENTRYPOINT ["java", "-jar", "app.jar"]
