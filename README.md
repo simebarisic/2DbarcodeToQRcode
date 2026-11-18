@@ -80,7 +80,7 @@ Ograničenja:
 docker compose up --build
 ```
 
-Frontend (nginx) će biti dostupan na **http://localhost:8081**, i interno
+Frontend (nginx) će biti dostupan na **http://localhost:3070**, i interno
 proxira `/api/*` na backend kontejner - dakle nema CORS-a u produkciji,
 sve je isti origin. Backend healthcheck (`/actuator/health`) mora
 prijaviti "healthy" prije nego se frontend kontejner digne.
@@ -90,7 +90,7 @@ prije `docker compose up`):
 
 | Varijabla | Default | Opis |
 |---|---|---|
-| `CORS_ALLOWED_ORIGINS` | `http://localhost:8081` | Comma-separated originsi kojima backend vjeruje (relevantno samo ako netko gađa API izravno, mimo nginx proxy-a) |
+| `CORS_ALLOWED_ORIGINS` | `http://localhost:3070` | Comma-separated originsi kojima backend vjeruje (relevantno samo ako netko gađa API izravno, mimo nginx proxy-a) |
 | `LOG_LEVEL` | `INFO` | Log level za `com.example.barcodeconverter` |
 
 ## Robusnije prepoznavanje barkoda (foto uvjeti "iz stvarnog svijeta")
